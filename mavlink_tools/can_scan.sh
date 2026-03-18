@@ -10,7 +10,7 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PYTHON="/Users/reutov/.local/pipx/venvs/mavproxy/bin/python"
 
 if [ "$1" = "eth" ]; then
-    CONN="udpin:0.0.0.0:14550"
+    CONN="udpin:0.0.0.0:14552"
 elif [ "$1" = "usb" ]; then
     PORT=$(ls /dev/tty.usbmodem* 2>/dev/null | head -1)
     if [ -z "$PORT" ]; then
@@ -23,7 +23,7 @@ else
     if [ -n "$PORT" ]; then
         CONN="$PORT"
     else
-        CONN="udpin:0.0.0.0:14550"
+        CONN="udpin:0.0.0.0:14552"
     fi
 fi
 
