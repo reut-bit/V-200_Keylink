@@ -1,10 +1,22 @@
 #!/bin/bash
 # MAVLink хаб: принимает поток от автопилота и раздаёт на несколько приложений.
 #
+# ОГРАНИЧЕНИЯ:
+#   Хаб ретранслирует ТОЛЬКО исходящий поток автопилота → приложения.
+#   Запросы параметров (param_request_list) от приложений на портах --out
+#   НЕ ПРОХОДЯТ обратно к автопилоту надёжно.
+#   Для полноценной двухсторонней связи (скан, параметры) подключайтесь
+#   напрямую к порту 14550 или 14555.
+#
 # После запуска:
-#   - QGroundControl:     подключить UDP на порт 14551
-#   - DroneCAN GUI Tool:  подключить MAVLink udpin:127.0.0.1:14552
-#   - can_scan.py:        ./can_scan.py udpin:127.0.0.1:14552
+#   - QGroundControl:     Comm Links → UDP → Port: 14551
+#   - DroneCAN GUI Tool:  MAVLink → udpin:127.0.0.1:14552
+#   - Мониторинг:         python3 can_scan.py udpin:127.0.0.1:14552
+#                         (только просмотр телеметрии, БЕЗ запроса параметров)
+#
+# Для полного скана (с параметрами):
+#   1. Закройте QGC
+#   2. ./can_scan.sh eth    (подключится напрямую на 14550)
 #
 # Остановка: Ctrl+C
 
@@ -12,15 +24,12 @@ echo "=== MAVLink Hub ==="
 echo ""
 echo "Автопилот → MAVProxy → QGC (14551) + Tools (14552)"
 echo ""
+echo "⚠  Хаб: только ретрансляция. Для скана с параметрами — напрямую 14550."
+echo ""
 echo "Настройка QGC:"
 echo "  Comm Links → Add → UDP → Port: 14551 → Connect"
 echo ""
-echo "Настройка DroneCAN GUI Tool:"
-echo "  MAVLink → udpin:127.0.0.1:14552"
-echo ""
-echo "Запуск can_scan.py:"
-echo "  ./can_scan.py udpin:127.0.0.1:14552"
-echo ""
+echo "Остановка: Ctrl+C"
 echo "---"
 
 mavproxy.py \
