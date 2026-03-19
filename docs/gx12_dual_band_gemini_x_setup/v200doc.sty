@@ -1,0 +1,55 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{v200doc}[2026/03/19 V-200 Keylink document style]
+
+\RequirePackage{fontspec}
+\setmainfont{PT Sans}
+\setmonofont[Scale=0.9]{PT Sans}
+\newfontfamily\cyrillicfonttt[Scale=0.9]{PT Sans}
+
+\RequirePackage{polyglossia}
+\setdefaultlanguage{russian}
+\setotherlanguage{english}
+
+\RequirePackage{geometry}
+\geometry{left=20mm, right=20mm, top=20mm, bottom=25mm}
+
+\RequirePackage{longtable,booktabs,array}
+\RequirePackage{enumitem}
+\RequirePackage{fancyhdr}
+\RequirePackage{titlesec}
+\RequirePackage{xcolor}
+\RequirePackage{hyperref}
+\RequirePackage{fancyvrb}
+\RequirePackage{graphicx}
+
+\definecolor{accent}{HTML}{2C3E50}
+\definecolor{linkcolor}{HTML}{2980B9}
+\definecolor{rulecolor}{HTML}{BDC3C7}
+\definecolor{codebg}{HTML}{F5F5F5}
+\definecolor{codeframe}{HTML}{DDDDDD}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=accent,
+  urlcolor=linkcolor,
+  pdfauthor={V-200 Keylink},
+}
+
+\titleformat{\section}{\Large\bfseries\color{accent}}{}{0em}{}[\vspace{-0.5em}\textcolor{rulecolor}{\rule{\textwidth}{0.4pt}}]
+\titleformat{\subsection}{\large\bfseries\color{accent}}{}{0em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries\color{accent}}{}{0em}{}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\newcommand{\param}[1]{\texttt{#1}}
+
+\newcommand{\docheader}[1]{%
+  \fancyhead[L]{\small\textcolor{accent}{V-200 Keylink}}%
+  \fancyhead[R]{\small\textcolor{accent}{#1}}%
+}
+
+\endinput
