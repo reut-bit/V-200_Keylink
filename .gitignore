@@ -3,6 +3,7 @@
 *.tlog.raw
 *.parm
 *.bin
+!docs/**/firmware/*.bin
 *.elf
 *.hex
 *.apj

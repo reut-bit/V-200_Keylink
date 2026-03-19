@@ -1,0 +1,21 @@
+# Fdb version 4
+["pdflatex"] 1773930123.44634 "/Users/maks/projectRails/V-200_Keylink/docs/gx12_dual_band_gemini_x_setup/gx12_dual_band_gemini_x_setup.tex" "gx12_dual_band_gemini_x_setup.pdf" "gx12_dual_band_gemini_x_setup" 1773930123.56024 2
+  "/Users/maks/projectRails/V-200_Keylink/docs/gx12_dual_band_gemini_x_setup/gx12_dual_band_gemini_x_setup.tex" 1773927805.31584 12555 a575f925f52e471100dd14cdb3f6a53a ""
+  "/opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/map/fontname/texfonts.map" 1741388039 3524 cb3e574dea2d1052e39280babc910dc8 ""
+  "/opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/fonts/tfm/public/cm/cmr10.tfm" 1741388039 1296 45809c5a464d5f32c8f98ba97c1bb47f ""
+  "/opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/tex/latex/base/article.cls" 1741388039 20144 63d8bacaf52e5abf4db3bc322373e1d4 ""
+  "/opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/tex/latex/base/size11.clo" 1741388039 8464 e73911cdcc738e82d6adccd28e654bb1 ""
+  "/opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/tex/latex/fontspec/fontspec.sty" 1741388039 3755 4872b99d810c024f9c09bb1c62ffee3b ""
+  "/opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def" 1741388039 29785 9f93ab201fe5dd053afcc6c1bcf7d266 ""
+  "/opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/tex/latex/l3kernel/expl3.sty" 1741388039 6565 f51d809db6193fae7b06c1bc26ca8f75 ""
+  "/opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/tex/latex/l3packages/xparse/xparse.sty" 1741388039 9783 ab4bee47700c04aadedb8da27591b0ab ""
+  "/opt/homebrew/Cellar/texlive/20250308_1/share/texmf-dist/web2c/texmf.cnf" 1741388039 42151 79f67285bdd95beca4d137b380b4b9e5 ""
+  "/opt/homebrew/Cellar/texlive/20250308_1/share/texmf-var/web2c/pdftex/pdflatex.fmt" 1741388039 3346141 1288109d02d1c772df65535881471649 ""
+  "gx12_dual_band_gemini_x_setup.aux" 0 -1 0 "pdflatex"
+  "gx12_dual_band_gemini_x_setup.tex" 1773927805.31584 12555 a575f925f52e471100dd14cdb3f6a53a ""
+  "v200doc.sty" 1773917728.26613 1492 7ebd421e0073011ec25324cb598a1b07 ""
+  (generated)
+  "gx12_dual_band_gemini_x_setup.aux"
+  "gx12_dual_band_gemini_x_setup.log"
+  "gx12_dual_band_gemini_x_setup.pdf"
+  (rewritten before read)
