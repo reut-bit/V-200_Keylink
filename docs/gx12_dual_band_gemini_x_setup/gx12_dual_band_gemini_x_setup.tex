@@ -1,0 +1,200 @@
+\documentclass[a4paper,11pt]{article}
+
+\usepackage{v200doc}
+\docheader{RadioMaster GX12 Gemini-X}
+\hypersetup{pdftitle={Настройка пульта RadioMaster GX12 Dual-Band Gemini-X}}
+
+\begin{document}
+
+\begin{center}
+  {\LARGE\bfseries\color{accent} Настройка пульта RadioMaster GX12\\Dual-Band Gemini-X}\\[1.5em]
+  \begin{tabular}{rl}
+    \textbf{Пульт:}     & RadioMaster GX12 Dual-Band Gemini-X \\
+    \textbf{Приёмник:}   & RadioMaster DBR4 Dual-Band Xross Gemini ExpressLRS \\
+    \textbf{Прошивка:}   & EdgeTX (пульт) / ExpressLRS (RF-модуль) \\
+    \textbf{Режимы:}     & 2.4 GHz, 900 MHz, Gemini-X (Xrossband) \\
+  \end{tabular}
+\end{center}
+
+\vspace{0.5em}
+\noindent\textbf{Источники:}
+\begin{itemize}[nosep]
+  \item \url{https://www.expresslrs.org/software/gemini}
+  \item \url{https://radiomasterrc.com/products/dbr4-dual-band-xross-gemini-expresslrs-receiver}
+  \item \url{https://github.com/ExpressLRS/ExpressLRS-Configurator/releases}
+  \item \url{https://github.com/EdgeTX/edgetx/releases}
+\end{itemize}
+
+\vspace{1em}
+\tableofcontents
+\newpage
+
+% ============================================================
+\section{1. Общее описание}
+
+RadioMaster GX12 --- пульт с двумя встроенными передатчиками ExpressLRS по 1~Вт и складными двухдиапазонными антеннами. Поддерживает диапазоны 2.4~GHz и Sub-G 900~MHz, а также режим \textbf{Gemini-X (Xrossband)} --- одновременная передача на обоих диапазонах для повышения стабильности связи и устойчивости к помехам.
+
+\textbf{Основные характеристики:}
+\begin{itemize}[nosep]
+  \item \textbf{Каналы:} до 16
+  \item \textbf{Экран:} 128$\times$64 монохромный OLED
+  \item \textbf{Память:} 512 MB встроенной флеш-памяти
+  \item \textbf{Питание:} 7.4~V 2S LiPo или 3.7~V 18650/21700 (до 5000~mAh)
+  \item \textbf{Интерфейс:} USB-C (зарядка, прошивка, доступ к хранилищу)
+  \item \textbf{Антенны:} встроенные, складные, 2.4~GHz и 900~MHz
+\end{itemize}
+
+% ============================================================
+\section{2. Обновление прошивки}
+
+\subsection{2.1. Прошивка пульта (EdgeTX) --- EdgeTX Companion}
+
+Прошивку \textbf{самого пульта} (EdgeTX) обновляют через \textbf{EdgeTX Companion}. На Mac~OS~X скачать установщик можно на странице релизов EdgeTX:
+
+\url{https://github.com/EdgeTX/edgetx/releases}
+
+Выбрать сборку \textbf{EdgeTX Companion} для Mac~OS~X (файл вида \texttt{edgetx-companion-<версия>-macos.dmg} или аналог). Подключить пульт по \textbf{USB-C}, запустить Companion, выбрать модель передатчика (GX12) и выполнить прошивку по инструкции в программе.
+
+\subsection{2.2. Прошивка RF-модуля пульта и приёмника (ExpressLRS)}
+
+Прошивку \textbf{RF-модуля} в пульте (ExpressLRS) и приёмника DBR4 обновляют через \textbf{ExpressLRS Configurator}:
+
+\url{https://github.com/ExpressLRS/ExpressLRS-Configurator/releases}
+
+\textbf{Обновление RF-модуля в пульте GX12:}
+\begin{enumerate}[nosep]
+  \item Установить и запустить ExpressLRS Configurator.
+  \item Подключить пульт к компьютеру по \textbf{USB-C}.
+  \item Выбрать целевое устройство: \textbf{RadioMaster GX12} (или соответствующий dual-band TX).
+  \item Выбрать версию прошивки ExpressLRS и нужные опции (частота, регион, Packet Rate и т.д.).
+  \item Нажать \textbf{Build \& Flash} и дождаться завершения прошивки.
+\end{enumerate}
+
+\textbf{Обновление приёмника DBR4:}
+\begin{enumerate}[nosep]
+  \item Подключить DBR4 к компьютеру по USB (через переходник или отладочный порт) либо прошивать по Wi-Fi (режим Wi-Fi на приёмнике).
+  \item В Configurator выбрать целевое устройство: \textbf{RadioMaster DBR4} (dual-band RX).
+  \item Собрать и прошить прошивку (Build \& Flash или через Wi-Fi).
+\end{enumerate}
+
+После обновления пульта и приёмника убедитесь, что версии ExpressLRS совместимы и при необходимости заново выполните связывание (Binding).
+
+% ============================================================
+\section{3. Приёмник DBR4 Xross Gemini (двухдиапазонный)}
+
+Приёмник \textbf{RadioMaster DBR4 Dual-Band Xross Gemini} предназначен для работы с пультом GX12 в режиме Gemini-X: принимает сигнал одновременно на 2.4~GHz и 915~MHz, что даёт максимальную стабильность связи.
+
+\subsection{3.1. Характеристики DBR4}
+
+\begin{longtable}{ll}
+  \toprule
+  \textbf{Параметр} & \textbf{Значение} \\
+  \midrule
+  RF-чипы          & Semtech LR1121 $\times$ 2 \\
+  MCU              & ESP32 \\
+  Диапазоны        & 2.404--2.479 GHz / 903.5--926.9 MHz \\
+  Скорость пакетов & до 500 Hz (1000 Hz в ExpressLRS v3.4+) \\
+  Питание          & 4.5--8.4 V DC \\
+  Вес              & 2.70 g без антенн / 5.30 g с антеннами \\
+  Размер           & 27.2 $\times$ 27.2 mm \\
+  Антенны          & 2$\times$ 2.4 GHz + 2$\times$ 915 MHz (проводные) \\
+  Интерфейс        & CRSF (Serial) \\
+  Прошивка         & ExpressLRS v3.3.2 (предустановлена) \\
+  \bottomrule
+\end{longtable}
+
+\subsection{3.2. Связывание (Binding) GX12 и DBR4}
+
+\begin{enumerate}[nosep]
+  \item Выключить пульт (GX12).
+  \item Подать питание на приёмник, затем \textbf{три раза} быстро включить и выключить питание DBR4.
+  \item Дождаться быстрого двойного мигания LED (режим ожидания связывания).
+  \item Включить пульт, открыть Lua \textbf{ExpressLRS} $\to$ нажать \textbf{[BIND]}.
+  \item После успешного связывания LED на DBR4 горит постоянно.
+\end{enumerate}
+
+\subsection{3.3. Режим антенны для пары GX12 + DBR4}
+
+Для полного использования Gemini-X:
+\begin{itemize}[nosep]
+  \item На \textbf{пульте GX12} в Lua ExpressLRS: \textbf{Antenna Mode} $\to$ \textbf{Gemini}.
+  \item На \textbf{приёмнике DBR4} (через Lua при активной телеметрии или ExpressLRS Configurator): \textbf{Antenna Mode} $\to$ \textbf{Gemini}.
+\end{itemize}
+
+Оба устройства должны быть в режиме \textbf{Gemini}; тогда пульт работает в Xrossband (2.4 + 900~MHz одновременно).
+
+\subsection{3.4. Подключение к полётному контроллеру (CRSF)}
+
+\begin{itemize}[nosep]
+  \item Подключить DBR4 к свободному UART ПК по \textbf{CRSF} (TX приёмника $\to$ RX ПК, RX приёмника $\to$ TX ПК, общая земля).
+  \item В ArduPilot: \param{SERIALx\_PROTOCOL} = \textbf{23 (RCIN)} для приёма RC по CRSF.
+  \item Скорость: обычно \textbf{400000} или \textbf{115200} (зависит от прошивки ExpressLRS).
+\end{itemize}
+
+В комплекте DBR4: приёмник, 2$\times$ антенны 2.4~GHz, 2$\times$ антенны 915~MHz, кабель CRSF, демпферы (4~mm и 3~mm), карта-инструкция.
+
+% ============================================================
+\section{4. Режимы передачи ExpressLRS}
+
+\subsection{4.1. Обычный режим (одна антенна)}
+
+Передача только на 2.4~GHz или только на 900~MHz. Используется с приёмниками с одной антенной.
+
+\subsection{4.2. Gemini (однодиапазонный)}
+
+Один диапазон (2.4~GHz или 900~MHz), но пакет одновременно передаётся на двух частотах:
+\begin{itemize}[nosep]
+  \item 2.4~GHz: разнос частот $\sim$40~MHz
+  \item 900~MHz: разнос $\sim$10~MHz
+\end{itemize}
+
+Требуется \textbf{diversity-приёмник} (две антенны в одном диапазоне). Даёт более стабильный LQ и лучшую устойчивость к помехам при том же расстоянии.
+
+\subsection{4.3. Gemini-X (Xrossband, двухдиапазонный)}
+
+Передача \textbf{одновременно} на 2.4~GHz и 900~MHz. Один и тот же пакет идёт в обоих диапазонах --- приёмник с поддержкой Gemini-X может принять его с любой стороны. Максимальная устойчивость к помехам и стабильный LQ.
+
+\textbf{Важно:} с приёмником с одной антенной или без Gemini режим Gemini-X на передатчике лучше не использовать: второй <<канал>> будет лишь создавать помехи. В таких случаях выставляйте на пульте режим \textbf{Single Antenna} (Ant1/Ant2) или \textbf{Switch}.
+
+% ============================================================
+\section{5. Настройка режима антенны (Lua)}
+
+\begin{enumerate}[nosep]
+  \item На пульте открыть меню \textbf{ExpressLRS} (Lua-скрипт).
+  \item В разделе настроек передатчика найти \textbf{Antenna Mode} (режим антенны).
+  \item Установить режим в соответствии с приёмником:
+\end{enumerate}
+
+\begin{longtable}{lll}
+  \toprule
+  \textbf{Приёмник} & \textbf{Режим на TX (пульте)} & \textbf{Режим на RX} \\
+  \midrule
+  Одна антенна           & Single (Ant1/Ant2) или Switch & --- \\
+  Diversity, без Gemini  & Single / Switch               & --- \\
+  Diversity с Gemini     & \textbf{Gemini}               & \textbf{Gemini} \\
+  С поддержкой Gemini-X  & \textbf{Gemini} (Gemini-X)    & \textbf{Gemini} \\
+  \bottomrule
+\end{longtable}
+
+На приёмнике режим антенны тоже задаётся через Lua (при подключении к пульту по телеметрии) или через конфигуратор ExpressLRS.
+
+\textbf{Обязательно:} и на передатчике, и на приёмнике должен быть выбран один и тот же тип режима (оба Gemini или оба Single/Switch).
+
+% ============================================================
+\section{6. Model Config Matching (привязка к модели)}
+
+Чтобы для разных моделей автоматически включался нужный режим антенны (например, для одной модели --- Single, для другой --- Gemini):
+
+\begin{enumerate}[nosep]
+  \item В EdgeTX: \textbf{Model $\to$ Model Setup} (или аналог в вашей версии).
+  \item Включить и настроить \textbf{Model Config Matching} в ExpressLRS.
+  \item Назначить, например:
+  \begin{itemize}[nosep]
+    \item \textbf{Model 5} --- модели с приёмником на одну антенну $\to$ Antenna Mode: Single/Switch.
+    \item \textbf{Model 6} --- модели с Gemini-приёмником $\to$ Antenna Mode: Gemini.
+  \end{itemize}
+\end{enumerate}
+
+Подробнее: \url{https://www.expresslrs.org/model-config-match/}
+
+\end{document}
