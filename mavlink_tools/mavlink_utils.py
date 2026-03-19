@@ -51,9 +51,10 @@ def decode_devid(devid):
     """Декодирование ArduPilot DeviceId (AP_HAL/Device.h).
 
     Раскладка битов:
-      0-2:   bus_type (3 бита)
-      3-7:   bus (5 бит)
-      8-15:  address (8 бит)
+      0-2:   bus_type (3 бита): 0=Unknown 1=I2C 2=SPI 3=UAVCAN ...
+      3-7:   bus (5 бит): внутренний _driver_index (0-based)
+             для UAVCAN: 0 → CAN1, 1 → CAN2
+      8-15:  address (8 бит): для UAVCAN = node ID
       16-23: devtype (8 бит)
     """
     d = int(devid)

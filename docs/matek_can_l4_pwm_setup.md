@@ -44,7 +44,12 @@ CAN-L4-PWM — это DroneCAN-нода на базе STM32L431, которая 
    ```bash
    dronecan_gui_tool
    ```
-   В окне подключения выбрать **MAVLink** и указать: `udpin:0.0.0.0:14550`
+   В окне подключения:
+   - **Interface:** `mavcan:0.0.0.0:14550`
+   - **Bus Number:** `2` (CAN2) или `1` (CAN1)
+   - **CAN bus bit rate:** `1000000`
+   - Нажать **OK**
+   - В главном окне нажать галочку у **Node ID: 127**
 
 6. В списке нод найти CAN-L4-PWM → нажать **Update Firmware** → выбрать файл прошивки из:
    ```
@@ -214,18 +219,26 @@ Pixhawk6X Pro                    CAN-L4-PWM                     Сервопри
 
 ### 6.1. Проверка через DroneCAN GUI Tool
 
-1. Подключиться к полётному контроллеру.
-2. В списке нод должна появиться CAN-L4-PWM с присвоенным Node ID.
-3. Открыть **Bus Monitor** (Tools → Bus Monitor).
-4. Должны быть видны пакеты `actuator.ArrayCommand` с данными серво.
+1. Закрыть QGroundControl (занимает порт 14550).
+2. Запустить `dronecan_gui_tool`.
+3. Подключиться:
+   - **Interface:** `mavcan:0.0.0.0:14550`
+   - **Bus Number:** `2` (CAN2) или `1` (CAN1)
+   - **CAN bus bit rate:** `1000000`
+4. Нажать галочку у **Node ID: 127** (без этого discovery не работает).
+5. В списке нод должна появиться CAN-L4-PWM с присвоенным Node ID.
+6. Открыть **Bus Monitor** (Tools → Bus Monitor).
+7. Должны быть видны пакеты `actuator.ArrayCommand` с данными серво.
 
-### 6.2. Проверка через MAVProxy
+### 6.2. Проверка через скрипт can_scan.py
 
 ```bash
-mavproxy.py --master=udpin:0.0.0.0:14550
-> module load uavcan
-> uavcan status
+# QGC должен быть закрыт
+cd mavlink_tools
+./can_scan.sh eth
 ```
+
+Скрипт покажет все обнаруженные CAN-устройства через параметры автопилота (DEVID).
 
 ### 6.3. Тест сервоприводов
 
@@ -240,7 +253,11 @@ mavproxy.py --master=udpin:0.0.0.0:14550
 
 | Проблема | Причина | Решение |
 |---|---|---|
-| Нода не появляется в GUI Tool | CAN-порт не включён | Проверить `CAN_Px_DRIVER` ≠ 0, перезагрузить |
+| GUI Tool: нод не видно | Node ID не задан | Нажать галочку у Node ID 127 в главном окне |
+| GUI Tool: нод не видно | Неверный Bus Number | Bus Number: 1=CAN1, 2=CAN2 (в окне настройки) |
+| GUI Tool: не подключается | QGC занимает порт | Закрыть QGroundControl перед запуском |
+| GUI Tool: ошибка подключения | Неверный формат | Interface: `mavcan:0.0.0.0:14550` (без `udpin:`) |
+| Нода не появляется | CAN-порт не включён | Проверить `CAN_Px_DRIVER` ≠ 0, перезагрузить |
 | Нода есть, но серво не двигаются | Safety не отключён | `BRD_SAFETY_DEFLT=0` или Toggle Safety |
 | Нода есть, но серво не двигаются | `CAN_D1_UC_SRV_BM` = 0 | Выставить битовую маску нужных каналов |
 | Серво дёргается / не тот канал | Неверный `OUTn_FUNCTION` | Пересчитать: 50 + номер SERVO на ПК |

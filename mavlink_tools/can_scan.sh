@@ -1,16 +1,19 @@
 #!/bin/bash
 # Сканирование DroneCAN-устройств на CAN-шине через MAVLink.
 #
+# Читает DEVID-параметры автопилота и определяет CAN-устройства.
+# QGroundControl должен быть закрыт (занимает порт 14550).
+#
 # Использование:
 #   ./can_scan.sh              — авто-определение (USB → Ethernet 14550)
 #   ./can_scan.sh usb          — подключение по USB
 #   ./can_scan.sh eth          — подключение по Ethernet (порт 14550)
 #
-# ВАЖНО: QGroundControl должен быть закрыт при работе по Ethernet (порт 14550).
-#        Для одновременной работы с QGC используйте порт 14555:
-#          python3 can_scan.py udpin:0.0.0.0:14555
-#        (только чтение телеметрии, запросы параметров не будут работать
-#         через broadcast-поток NET_P2)
+# Для прямого просмотра CAN-шины используйте DroneCAN GUI Tool:
+#   dronecan_gui_tool
+#   Interface: mavcan:0.0.0.0:14550
+#   Bus Number: 2 (CAN2) или 1 (CAN1)
+#   CAN bus bit rate: 1000000
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PYTHON="/Users/reutov/.local/pipx/venvs/mavproxy/bin/python"
