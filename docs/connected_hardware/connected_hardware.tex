@@ -1,0 +1,420 @@
+\documentclass[a4paper,11pt]{article}
+
+\usepackage{v200doc}
+\docheader{Подключённое оборудование}
+\hypersetup{pdftitle={Подключённое оборудование и периферия}}
+
+\begin{document}
+
+\begin{center}
+  {\LARGE\bfseries\color{accent} Подключённое оборудование и периферия}\\[0.3em]
+  {\Large V-200 Keylink}\\[1.5em]
+  \begin{tabular}{rl}
+    \textbf{Полётный контроллер:} & Pixhawk6X Pro (\param{BRD\_TYPE} = 42) \\
+    \textbf{Прошивка:} & ArduPilot (ArduCopter/Heli) 4.6.3 \\
+    \textbf{Тип рамы:} & Вертолёт с хвостовым ротором \\
+    & (\param{FRAME\_CLASS} = 6, \param{FRAME\_TYPE} = 1) \\
+    \textbf{Дата параметров:} & 19.03.2026 \\
+    \textbf{Git Revision:} & 92b0cd78 \\
+  \end{tabular}
+\end{center}
+
+\vspace{1em}
+
+\tableofcontents
+\newpage
+
+% ============================================================
+\section{1. Полётный контроллер}
+
+\begin{longtable}{lll}
+  \toprule
+  \textbf{Параметр} & \textbf{Значение} & \textbf{Описание} \\
+  \midrule
+  \param{BRD\_TYPE}        & 42  & Pixhawk6X Pro \\
+  \param{SCHED\_LOOP\_RATE} & 400 & Частота основного цикла (Гц) \\
+  \param{BRD\_IO\_ENABLE}   & 1   & IOMCU включён \\
+  \param{BRD\_SAFETY\_DEFLT}& 1   & Safety switch включён по умолчанию \\
+  \param{BRD\_HEAT\_TARG}   & 45  & Целевая температура нагревателя IMU (°C) \\
+  \bottomrule
+\end{longtable}
+
+\subsection{IMU (инерциальные датчики)}
+
+На борту 3 IMU (все активны: \param{INS\_USE} = \param{INS\_USE2} = \param{INS\_USE3} = 1):
+
+\begin{longtable}{llll}
+  \toprule
+  \textbf{IMU} & \textbf{DEVID (ACC)} & \textbf{DEVID (GYR)} & \textbf{Примечание} \\
+  \midrule
+  IMU1 & 3211546 & 3211546 & Основной \\
+  IMU2 & 3604754 & 3604754 & Резервный \\
+  IMU3 & 3866890 & 3866890 & Резервный \\
+  \bottomrule
+\end{longtable}
+
+\begin{itemize}[nosep]
+  \item \param{INS\_GYRO\_RATE} = 1 (быстрая частота обновления гироскопов)
+  \item \param{INS\_FAST\_SAMPLE} = 7 (быстрая выборка на всех IMU)
+  \item \param{INS\_ACCEL\_FILTER} = 20 Гц
+  \item \param{INS\_GYRO\_FILTER} = 20 Гц
+\end{itemize}
+
+% ============================================================
+\section{2. Барометры}
+
+\begin{longtable}{lll}
+  \toprule
+  \textbf{Барометр} & \textbf{DEVID} & \textbf{Статус} \\
+  \midrule
+  BARO1 & 292369  & Активен (основной) \\
+  BARO2 & 1074177 & Активен (резервный) \\
+  BARO3 & 0       & Не подключён \\
+  \bottomrule
+\end{longtable}
+
+\begin{itemize}[nosep]
+  \item \param{BARO\_PRIMARY} = 0 (первый барометр — основной)
+\end{itemize}
+
+% ============================================================
+\section{3. Компасы (магнитометры)}
+
+Обнаружено 5 компасов (3 активных, 2 дополнительных):
+
+\begin{longtable}{lllll}
+  \toprule
+  \textbf{Компас} & \textbf{DEVID} & \textbf{Внешний} & \textbf{Используется} & \textbf{Приоритет} \\
+  \midrule
+  Compass 1 & 92939  & Да & Да & Prio2 \\
+  Compass 2 & 92427  & Да & Да & Prio3 \\
+  Compass 3 & 0      & —  & —  & — \\
+  Compass 4 & 92171  & —  & —  & — \\
+  Compass 5 & 658953 & —  & —  & — \\
+  Compass 6 & 331777 & —  & —  & — \\
+  \bottomrule
+\end{longtable}
+
+\begin{itemize}[nosep]
+  \item \param{COMPASS\_PRIO1\_ID} = 92683 (основной компас)
+  \item \param{COMPASS\_EXTERNAL} = 1 (основной — внешний)
+  \item \param{COMPASS\_AUTODEC} = 1 (автоматическое склонение)
+  \item \param{COMPASS\_DEC} $\approx$ 0.195 рад ($\approx$ 11.2°)
+\end{itemize}
+
+% ============================================================
+\section{4. GPS-приёмники}
+
+\begin{longtable}{llll}
+  \toprule
+  \textbf{GPS} & \textbf{Тип} & \textbf{Описание} & \textbf{Скорость обновления} \\
+  \midrule
+  GPS1 & 25 (DroneCAN) & Подключён по CAN     & 200 мс (5 Гц) \\
+  GPS2 & 9 (DroneCAN)  & CAN Node ID 107      & 200 мс (5 Гц) \\
+  \bottomrule
+\end{longtable}
+
+\begin{itemize}[nosep]
+  \item \param{GPS\_AUTO\_SWITCH} = 1 (автопереключение между GPS)
+  \item \param{GPS\_BLEND\_MASK} = 5 (блендинг по скорости и горизонтальной позиции)
+  \item \param{GPS\_HDOP\_GOOD} = 140
+  \item \param{GPS\_NAVFILTER} = 8
+  \item \param{AHRS\_GPS\_MINSATS} = 6 (минимум 6 спутников)
+\end{itemize}
+
+% ============================================================
+\section{5. Датчик воздушной скорости (Airspeed)}
+
+\begin{longtable}{lllll}
+  \toprule
+  \textbf{Датчик} & \textbf{Тип} & \textbf{BUS} & \textbf{DEVID} & \textbf{Используется} \\
+  \midrule
+  ARSPD (основной)   & 8 (DroneCAN) & 1 & 27915 & Да \\
+  ARSPD2 (резервный) & 8 (DroneCAN) & 1 & 27659 & Нет \\
+  \bottomrule
+\end{longtable}
+
+\begin{itemize}[nosep]
+  \item \param{ARSPD\_ENABLE} = 1
+  \item \param{ARSPD\_AUTOCAL} = 1 (автокалибровка включена)
+  \item \param{ARSPD\_RATIO} = 2.0
+  \item \param{ARSPD\_PRIMARY} = 0 (первый — основной)
+  \item \param{ARSPD\_WIND\_GATE} = 5.0
+\end{itemize}
+
+% ============================================================
+\section{6. Батареи (мониторинг питания)}
+
+\subsection{Батарея 1 (основная, 6S LiPo)}
+
+\begin{longtable}{ll}
+  \toprule
+  \textbf{Параметр} & \textbf{Значение} \\
+  \midrule
+  \param{BATT\_MONITOR}  & 8 (DroneCAN) \\
+  \param{BATT\_CAPACITY} & 18000 мАч \\
+  \param{BATT\_ARM\_VOLT} & 23.4 В (минимум для арминга) \\
+  \param{BATT\_LOW\_VOLT} & 22.2 В (предупреждение) \\
+  \param{BATT\_CRT\_VOLT} & 21.0 В (критический) \\
+  \bottomrule
+\end{longtable}
+
+\subsection{Батарея 2 (вспомогательная, 3S LiPo)}
+
+\begin{longtable}{ll}
+  \toprule
+  \textbf{Параметр} & \textbf{Значение} \\
+  \midrule
+  \param{BATT2\_MONITOR}  & 8 (DroneCAN) \\
+  \param{BATT2\_CAPACITY} & 20000 мАч \\
+  \param{BATT2\_ARM\_VOLT} & 11.7 В (минимум для арминга) \\
+  \param{BATT2\_LOW\_VOLT} & 11.0 В (предупреждение) \\
+  \param{BATT2\_CRT\_VOLT} & 10.5 В (критический) \\
+  \bottomrule
+\end{longtable}
+
+% ============================================================
+\section{7. CAN-шина}
+
+Оба CAN-порта активны:
+
+\begin{longtable}{llll}
+  \toprule
+  \textbf{Порт} & \textbf{Драйвер} & \textbf{Битрейт} & \textbf{Протокол} \\
+  \midrule
+  CAN1 & 1 & 1\,000\,000 бит/с & DroneCAN \\
+  CAN2 & 2 & 1\,000\,000 бит/с & DroneCAN \\
+  \bottomrule
+\end{longtable}
+
+\begin{itemize}[nosep]
+  \item \param{CAN\_D1\_UC\_NODE} = 10, \param{CAN\_D2\_UC\_NODE} = 10
+  \item \param{CAN\_D1\_UC\_SRV\_RT} = 50 Гц (частота обновления серво по CAN)
+  \item \param{CAN\_D1\_UC\_SRV\_BM} = 0 (серво по CAN1 не передаются)
+  \item \param{CAN\_LOGLEVEL} = 4
+\end{itemize}
+
+\subsection{DroneCAN-устройства на шине}
+
+\begin{itemize}[nosep]
+  \item \textbf{GPS1} — тип 25, DroneCAN GPS
+  \item \textbf{GPS2} — тип 9, DroneCAN, Node ID 107
+  \item \textbf{Airspeed 1} — тип 8, DroneCAN
+  \item \textbf{Airspeed 2} — тип 8, DroneCAN
+  \item \textbf{Battery Monitor 1} — тип 8, DroneCAN
+  \item \textbf{Battery Monitor 2} — тип 8, DroneCAN
+  \item \textbf{Matek CAN-L4-PWM} — CAN $\to$ PWM конвертер для сервоприводов
+\end{itemize}
+
+% ============================================================
+\section{8. Сервовыходы (SERVO)}
+
+\begin{longtable}{lllll}
+  \toprule
+  \textbf{Выход} & \textbf{Функция} & \textbf{Значение} & \textbf{Описание} & \textbf{PWM} \\
+  \midrule
+  SERVO1    & 33 & Motor 1  & Серво автомата перекоса    & 1000–2000 \\
+  SERVO2    & 34 & Motor 2  & Серво автомата перекоса    & 1000–2000 \\
+  SERVO3    & 35 & Motor 3  & Серво автомата перекоса    & 1000–2000 \\
+  SERVO4    & 36 & Motor 4  & Серво хвостового ротора    & 1100–1900 \\
+  SERVO5    & 0  & —        & Отключён                  & 1100–1900 \\
+  SERVO6    & 0  & —        & Отключён                  & 1100–1900 \\
+  SERVO7    & 0  & —        & Отключён                  & 1100–1900 \\
+  SERVO8    & 31 & Interlock& RSC (обороты ротора)      & 1100–1900 \\
+  SERVO9–16 & 0  & —        & Отключены                 & 1100–1900 \\
+  \bottomrule
+\end{longtable}
+
+\begin{itemize}[nosep]
+  \item \param{SERVO\_RATE} = 50 Гц
+  \item \param{RC\_SPEED} = 125 Гц
+\end{itemize}
+
+% ============================================================
+\section{9. Механика вертолёта (Heli)}
+
+\begin{longtable}{lll}
+  \toprule
+  \textbf{Параметр} & \textbf{Значение} & \textbf{Описание} \\
+  \midrule
+  \param{H\_SW\_TYPE}       & 3    & Автомат перекоса: 3 серво (120°) \\
+  \param{H\_TAIL\_TYPE}     & 0    & Хвостовой ротор: серво \\
+  \param{H\_COL\_MAX}       & 1750 & Макс. шаг (PWM) \\
+  \param{H\_COL\_MIN}       & 1250 & Мин. шаг (PWM) \\
+  \param{H\_COL\_HOVER}     & 0.5  & Шаг висения (нормализованный) \\
+  \param{H\_CYC\_MAX}       & 2500 & Макс. циклический (сотые градуса) \\
+  \param{H\_RSC\_MODE}      & 1    & Режим RSC: через PWM \\
+  \param{H\_RSC\_SETPOINT}  & 70   & Уставка RSC (\%) \\
+  \param{H\_RSC\_CRITICAL}  & 50   & Критические обороты (\%) \\
+  \param{H\_RSC\_GOV\_RPM}  & 1500 & Целевые обороты регулятора \\
+  \param{H\_RSC\_RAMP\_TIME}& 1    & Время раскрутки (сек) \\
+  \param{H\_RSC\_RUNUP\_TIME}& 10  & Время выхода на обороты (сек) \\
+  \param{H\_GYR\_GAIN}      & 350  & Усиление гироскопа хвоста \\
+  \param{H\_FLYBAR\_MODE}   & 0    & Безфлайбарный \\
+  \bottomrule
+\end{longtable}
+
+% ============================================================
+\section{10. Радиоуправление (RC)}
+
+\begin{longtable}{lll}
+  \toprule
+  \textbf{Параметр} & \textbf{Значение} & \textbf{Описание} \\
+  \midrule
+  \param{RC\_PROTOCOLS}    & 1  & PPM/SBUS (CRSF через Serial) \\
+  \param{FLTMODE\_CH}      & 5  & Канал выбора режимов полёта \\
+  \param{RC8\_OPTION}      & 32 & Канал 8: Motor Interlock \\
+  \param{RCMAP\_ROLL}      & 1  & Roll $\to$ CH1 \\
+  \param{RCMAP\_PITCH}     & 2  & Pitch $\to$ CH2 \\
+  \param{RCMAP\_THROTTLE}  & 3  & Throttle $\to$ CH3 \\
+  \param{RCMAP\_YAW}       & 4  & Yaw $\to$ CH4 \\
+  \bottomrule
+\end{longtable}
+
+\begin{itemize}[nosep]
+  \item \textbf{Аппаратура:} RadioMaster GX12 Dual-Band Gemini-X
+  \item \textbf{Приёмник:} RadioMaster DBR4 Dual-Band Xross Gemini (CRSF)
+\end{itemize}
+
+% ============================================================
+\section{11. Серийные порты (Serial)}
+
+\begin{longtable}{llll}
+  \toprule
+  \textbf{Порт} & \textbf{Протокол} & \textbf{Скорость} & \textbf{Описание} \\
+  \midrule
+  SERIAL0 (USB) & 2 (MAVLink2) & 115200 & USB-подключение \\
+  SERIAL1       & 2 (MAVLink2) & 57600  & Телеметрия \\
+  SERIAL2       & 2 (MAVLink2) & 57600  & Телеметрия \\
+  SERIAL3       & 5 (GPS)      & 230400 & GPS1 \\
+  SERIAL4       & 5 (GPS)      & 230400 & GPS2 \\
+  SERIAL5       & --1 (откл.)  & 57600  & — \\
+  SERIAL6       & --1 (откл.)  & 57600  & — \\
+  SERIAL7       & --1 (откл.)  & 57600  & — \\
+  SERIAL8       & 2 (MAVLink2) & 115200 & Ethernet MAVLink \\
+  \bottomrule
+\end{longtable}
+
+% ============================================================
+\section{12. Ethernet (сетевой интерфейс)}
+
+\begin{longtable}{ll}
+  \toprule
+  \textbf{Параметр} & \textbf{Значение} \\
+  \midrule
+  \param{NET\_ENABLE} & 1 (включён) \\
+  \param{NET\_DHCP}   & 0 (статический IP) \\
+  IP-адрес ПК         & 192.168.144.14 \\
+  Шлюз                & 192.168.144.1 \\
+  Маска подсети        & /24 (255.255.255.0) \\
+  MAC-адрес            & C2:AF:51:81:70:1D \\
+  \bottomrule
+\end{longtable}
+
+\subsection{Сетевые порты MAVLink}
+
+\begin{longtable}{lllll}
+  \toprule
+  \textbf{Порт} & \textbf{Тип} & \textbf{IP назначения} & \textbf{Порт} & \textbf{Протокол} \\
+  \midrule
+  NET\_P1 & 1 (UDP Client) & 192.168.144.10  & 14550 & MAVLink2 \\
+  NET\_P2 & 1 (UDP Client) & 192.168.144.255 & 14555 & MAVLink2 (broadcast) \\
+  NET\_P3 & 0 (отключён)   & —               & —     & — \\
+  NET\_P4 & 0 (отключён)   & —               & —     & — \\
+  \bottomrule
+\end{longtable}
+
+% ============================================================
+\section{13. EKF (навигационный фильтр)}
+
+\begin{longtable}{lll}
+  \toprule
+  \textbf{Параметр} & \textbf{Значение} & \textbf{Описание} \\
+  \midrule
+  \param{AHRS\_EKF\_TYPE}  & 3 & EKF3 \\
+  \param{EK3\_ENABLE}      & 1 & EKF3 включён \\
+  \param{EK3\_IMU\_MASK}   & 3 & Используются IMU1 и IMU2 \\
+  \param{EK3\_SRC1\_POSXY} & 3 & Позиция XY: GPS \\
+  \param{EK3\_SRC1\_POSZ}  & 1 & Позиция Z: барометр \\
+  \param{EK3\_SRC1\_VELXY} & 3 & Скорость XY: GPS \\
+  \param{EK3\_SRC1\_VELZ}  & 3 & Скорость Z: GPS \\
+  \param{EK3\_SRC1\_YAW}   & 1 & Курс: компас \\
+  \bottomrule
+\end{longtable}
+
+% ============================================================
+\section{14. Отключённое / неиспользуемое оборудование}
+
+\begin{longtable}{lll}
+  \toprule
+  \textbf{Устройство} & \textbf{Параметр} & \textbf{Статус} \\
+  \midrule
+  Дальномер (Rangefinder)    & \param{RNGFND1\_TYPE} = 0  & Не подключён \\
+  Оптический поток           & \param{FLOW\_TYPE} = 0     & Не подключён \\
+  Датчик оборотов (RPM)      & \param{RPM1\_TYPE} = 0     & Не подключён \\
+  Камера                     & \param{CAM1\_TYPE} = 0     & Не подключена \\
+  Подвес (Gimbal)            & \param{MNT1\_TYPE} = 0     & Не подключён \\
+  Proximity                  & \param{PRX1\_TYPE} = 0     & Не подключён \\
+  OSD                        & \param{OSD\_TYPE} = 0      & Не подключён \\
+  Visual Odometry            & \param{VISO\_TYPE} = 0     & Не подключён \\
+  Beacon                     & \param{BCN\_TYPE} = 0      & Не подключён \\
+  Generator                  & \param{GEN\_TYPE} = 0      & Не подключён \\
+  EFI (впрыск)               & \param{EFI\_TYPE} = 0      & Не подключён \\
+  Лебёдка (Winch)            & \param{WINCH\_TYPE} = 0    & Не подключена \\
+  Парашют                    & \param{CHUTE\_ENABLED} = 0 & Не подключён \\
+  Шасси (Landing Gear)       & \param{LGR\_ENABLE} = 0    & Не подключено \\
+  ADSB                       & \param{ADSB\_TYPE} = 0     & Не подключён \\
+  RSSI                       & \param{RSSI\_TYPE} = 0     & Не подключён \\
+  VTX                        & \param{VTX\_ENABLE} = 0    & Не подключён \\
+  Gripper                    & \param{GRIP\_ENABLE} = 0   & Не подключён \\
+  Sprayer                    & \param{SPRAY\_ENABLE} = 0  & Не подключён \\
+  \bottomrule
+\end{longtable}
+
+% ============================================================
+\section{15. Сводная схема подключения}
+
+\fboxsep=4mm
+\noindent\fcolorbox{codeframe}{codebg}{%
+\begin{minipage}{\dimexpr\textwidth-2\fboxsep-2\fboxrule}
+\centering\large\bfseries Pixhawk6X Pro (BRD\_TYPE=42)\\[0.8em]
+\normalsize\normalfont
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{IMU $\times$ 3} & \textbf{BARO $\times$ 2} & \textbf{COMPASS} & \textbf{IOMCU} \\
+(встроен.) & (встроен.) & (внешний) & SERVO1-8 (PWM) \\
+\hline
+\end{tabular}
+\\[1em]
+\raggedright
+\textbf{Serial:}\\
+\quad SERIAL0 --- USB (MAVLink2, 115200)\\
+\quad SERIAL1 --- Телеметрия (MAVLink2, 57600)\\
+\quad SERIAL2 --- Телеметрия (MAVLink2, 57600)\\
+\quad SERIAL3 --- GPS1 (230400)\\
+\quad SERIAL4 --- GPS2 (230400)\\
+\quad SERIAL8 --- Ethernet MAVLink (115200)\\[0.6em]
+\textbf{CAN1:}\\
+\quad $\bullet$ GPS1 (DroneCAN, тип 25)\\
+\quad $\bullet$ GPS2 (DroneCAN, тип 9, Node 107)\\
+\quad $\bullet$ Airspeed1 (DroneCAN)\\
+\quad $\bullet$ Airspeed2 (DroneCAN)\\
+\quad $\bullet$ Battery Monitor 1 (DroneCAN, 6S 18Ah)\\
+\quad $\bullet$ Battery Monitor 2 (DroneCAN, 3S 20Ah)\\
+\quad $\bullet$ Matek CAN-L4-PWM (CAN $\to$ PWM, серво 1--4)\\[0.6em]
+\textbf{CAN2:} DroneCAN (резервная шина)\\[0.6em]
+\textbf{Ethernet:} 192.168.144.14/24\\
+\quad $\bullet$ UDP $\to$ 192.168.144.10:14550 (GCS)\\
+\quad $\bullet$ UDP $\to$ 192.168.144.255:14555 (broadcast)\\[0.6em]
+\textbf{RC:} RadioMaster DBR4 (CRSF / ExpressLRS)\\
+\quad Пульт: RadioMaster GX12 Gemini-X
+\end{minipage}%
+}
+
+\vfill
+\begin{center}
+  \small\textit{Документ сгенерирован на основе файла параметров \texttt{params\_19\_03\_26.params}}\\
+  \small\textit{ArduPilot 4.6.3, Git: 92b0cd78}
+\end{center}
+
+\end{document}
